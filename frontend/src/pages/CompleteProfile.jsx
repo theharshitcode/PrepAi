@@ -19,17 +19,25 @@ export default function CompleteProfile() {
 
     // Companies search
     useEffect(() => {
-        const delay = setTimeout(async () => {
-            try {
-                const res = await api.get(`/companies/search?q=${searchQuery}`)
-                setCompanies(res.data)
-            } catch {
-                toast.error('Failed to load companies')
-            }
+        fetchCompanies('')   // page load pe sab companies fetch karo
+    }, [])
+
+    useEffect(() => {
+        const delay = setTimeout(() => {
+            fetchCompanies(searchQuery)
         }, 400)
         return () => clearTimeout(delay)
     }, [searchQuery])
 
+    const fetchCompanies = async (query) => {
+        try {
+            const res = await api.get(`/companies/search?q=${query}&t=${Date.now()}`) // cache bust
+            console.log('Companies:', res.data)  // debug
+            setCompanies(res.data)
+        } catch {
+            toast.error('Failed to load companies')
+        }
+    }
     const toggleCompany = (company) => {
         const exists = selectedCompanies.find(c => c._id === company._id)
         if (exists) {
@@ -75,7 +83,7 @@ export default function CompleteProfile() {
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-6">
 
-                        {/* Role select */}
+                        {/* Role select
                         <div className="space-y-2">
                             <label className="text-sm font-medium">Select Role</label>
                             <div className="flex gap-3">
@@ -84,17 +92,30 @@ export default function CompleteProfile() {
                                         key={role}
                                         type="button"
                                         onClick={() => setSelectedRole(role)}
-                                        className={`flex-1 py-2 px-4 rounded-lg border-2 capitalize font-medium transition-all ${
-                                            selectedRole === role
+                                        className={`flex-1 py-2 px-4 rounded-lg border-2 capitalize font-medium transition-all ${selectedRole === role
                                                 ? 'border-indigo-600 bg-indigo-50 text-indigo-600'
                                                 : 'border-gray-200 text-gray-500 hover:border-indigo-300'
-                                        }`}
+                                            }`}
                                     >
                                         {role}
                                     </button>
                                 ))}
                             </div>
+                        </div> */}
+                        {/* Role select — button ki jagah dropdown */}
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">Select Role</label>
+                            <select
+                                value={selectedRole}
+                                onChange={e => setSelectedRole(e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            >
+                                <option value="">-- Select your role --</option>
+                                <option value="candidate">Candidate</option>
+                                <option value="admin">Admin</option>
+                            </select>
                         </div>
+                        
 
                         {/* Company search */}
                         <div className="space-y-2">
@@ -116,9 +137,8 @@ export default function CompleteProfile() {
                                             <div
                                                 key={company._id}
                                                 onClick={() => toggleCompany(company)}
-                                                className={`px-4 py-2 cursor-pointer flex justify-between items-center hover:bg-gray-50 transition-colors ${
-                                                    isSelected ? 'bg-indigo-50' : ''
-                                                }`}
+                                                className={`px-4 py-2 cursor-pointer flex justify-between items-center hover:bg-gray-50 transition-colors ${isSelected ? 'bg-indigo-50' : ''
+                                                    }`}
                                             >
                                                 <div>
                                                     <p className="text-sm font-medium">{company.name}</p>

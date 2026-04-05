@@ -23,7 +23,8 @@ export default function Dashboard() {
         fetchData()
     }, [])
 
-    const fetchData = async () => {
+    // Dashboard.jsx mein fetchData mein
+const fetchData = async () => {
     try {
         const [interviewsRes, paymentRes, profileRes] = await Promise.all([
             api.get('/interview/my-interviews'),
@@ -32,9 +33,8 @@ export default function Dashboard() {
         ])
         setInterviews(interviewsRes.data)
         setPaymentStatus(paymentRes.data)
-        
-        // Companies populated objects hain ab
         setCompanies(profileRes.data.companies || [])
+        setJobRole(profileRes.data.jobPreference || '')  // auto-fill
     } catch (err) {
         toast.error('Failed to load data')
     } finally {
@@ -103,6 +103,13 @@ export default function Dashboard() {
                             {paymentStatus?.remainingFree} free left
                         </Badge>
                     )}
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => navigate('/settings')}
+                    >
+                        Settings
+                    </Button>
                     <Button
                         variant="outline"
                         size="sm"

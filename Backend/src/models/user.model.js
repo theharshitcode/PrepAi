@@ -40,6 +40,11 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false                 // role + companies set hone ke baad true hoga
     },
+    jobPreference: {
+        type: String,
+        trim: true,
+        default: null    // e.g. "Backend Developer"
+    },
     interviewCount: {
         type: Number,
         default: 0        // har interview pe increment hoga

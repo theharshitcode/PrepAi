@@ -1,0 +1,302 @@
+@use '../styles/variables.scss' as *;
+@use '../styles/mixins.scss' as *;
+
+// ─── Page Layout ─────────────────────────────────────────────────────────────
+
+.page {
+    min-height: 100vh;
+    background: $light;
+    @include flex-center;
+    padding: $spacing-xl $spacing-md;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-xl;
+    max-width: 860px;
+    width: 100%;
+
+    @include tablet {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+    }
+}
+
+// ─── Card Base ────────────────────────────────────────────────────────────────
+
+.card {
+    @include card;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+}
+
+.payCard {
+    @include card;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+}
+
+// ─── Plan Header ─────────────────────────────────────────────────────────────
+
+.planHeader {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, lighten($primary, 30%), lighten($secondary, 28%));
+    color: $primary;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    width: fit-content;
+    text-transform: uppercase;
+}
+
+.planName {
+    font-size: $font-size-xl;
+    font-weight: 700;
+    color: $dark;
+    line-height: 1.2;
+}
+
+.priceRow {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    margin-top: $spacing-sm;
+}
+
+.currency {
+    font-size: $font-size-lg;
+    font-weight: 600;
+    color: $dark;
+    margin-top: 6px;
+}
+
+.amount {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: $dark;
+    line-height: 1;
+    letter-spacing: -2px;
+}
+
+.priceSub {
+    font-size: $font-size-sm;
+    color: lighten($dark, 45%);
+}
+
+// ─── Divider ─────────────────────────────────────────────────────────────────
+
+.divider {
+    border: none;
+    border-top: 1px solid lighten($dark, 80%);
+    margin: 0;
+}
+
+// ─── Features ────────────────────────────────────────────────────────────────
+
+.featureList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+}
+
+.featureItem {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-size: $font-size-sm;
+    color: darken($dark, 5%);
+
+    .featureIcon {
+        font-size: 1rem;
+        width: 24px;
+        text-align: center;
+        flex-shrink: 0;
+    }
+}
+
+// ─── Free Plan Note ───────────────────────────────────────────────────────────
+
+.freePlanNote {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-size: $font-size-sm;
+    color: lighten($dark, 40%);
+}
+
+.freeTag {
+    background: lighten($dark, 78%);
+    color: lighten($dark, 30%);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+// ─── Pay Card ────────────────────────────────────────────────────────────────
+
+.payTitle {
+    font-size: $font-size-lg;
+    font-weight: 700;
+    color: $dark;
+}
+
+.paySubtitle {
+    font-size: $font-size-sm;
+    color: lighten($dark, 35%);
+    line-height: 1.6;
+}
+
+// ─── Order Summary ────────────────────────────────────────────────────────────
+
+.orderSummary {
+    background: lighten($dark, 84%);
+    border-radius: $radius-md;
+    padding: $spacing-md;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.summaryRow {
+    display: flex;
+    justify-content: space-between;
+    font-size: $font-size-sm;
+    color: lighten($dark, 25%);
+}
+
+.included {
+    color: $success;
+    font-weight: 500;
+}
+
+.totalRow {
+    font-size: $font-size-md;
+    font-weight: 700;
+    color: $dark;
+}
+
+// ─── Primary Button ───────────────────────────────────────────────────────────
+
+.btnPrimary {
+    @include btn-primary;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    padding: 0.875rem $spacing-lg;
+    font-size: $font-size-md;
+}
+
+// ─── Spinner ──────────────────────────────────────────────────────────────────
+
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+// ─── Error Box ────────────────────────────────────────────────────────────────
+
+.errorBox {
+    background: lighten($danger, 38%);
+    color: darken($danger, 15%);
+    border: 1px solid lighten($danger, 25%);
+    border-radius: $radius-md;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-sm;
+    line-height: 1.5;
+}
+
+// ─── Secure Note ──────────────────────────────────────────────────────────────
+
+.secureNote {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 0.75rem;
+    color: lighten($dark, 48%);
+
+    svg {
+        flex-shrink: 0;
+    }
+}
+
+// ─── Payment Methods ─────────────────────────────────────────────────────────
+
+.paymentMethods {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+
+    span {
+        font-size: 0.7rem;
+        font-weight: 500;
+        color: lighten($dark, 40%);
+        background: lighten($dark, 82%);
+        padding: 3px 10px;
+        border-radius: 999px;
+        letter-spacing: 0.03em;
+    }
+}
+
+// ─── Success State ────────────────────────────────────────────────────────────
+
+.successCard {
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    align-items: center;
+}
+
+.successIcon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $success, darken($success, 8%));
+    color: white;
+    font-size: 1.75rem;
+    @include flex-center;
+    box-shadow: 0 8px 20px rgba($success, 0.3);
+}
+
+.successTitle {
+    font-size: $font-size-xl;
+    font-weight: 700;
+    color: $dark;
+}
+
+.successSub {
+    font-size: $font-size-sm;
+    color: lighten($dark, 35%);
+    line-height: 1.6;
+    max-width: 320px;
+}

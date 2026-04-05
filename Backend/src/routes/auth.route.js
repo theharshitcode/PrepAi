@@ -29,7 +29,10 @@ const validate = require('../middlewares/validate.middleware');
 const {
     registerValidator,
     loginValidator,
-    completeProfileValidator
+    completeProfileValidator,
+    updateProfileValidator,
+    updatePasswordValidator,
+    updateCompaniesValidator
 } = require('../validators/auth.validator');
 const {
     registerUser,
@@ -37,7 +40,10 @@ const {
     logoutUser,
     getProfile,
     refreshToken,
-    completeProfile
+    completeProfile,
+    updateProfile,
+    updatePassword,
+    updateCompanies
 } = require('../controllers/auth.controller');
 
 router.post('/register', registerValidator, validate, registerUser);
@@ -46,5 +52,9 @@ router.post('/logout', auth, logoutUser);
 router.post('/refresh', refreshToken);
 router.get('/profile', auth, getProfile);
 router.post('/complete-profile', auth, completeProfileValidator, validate, completeProfile);
+
+router.put('/update-profile', auth, updateProfileValidator, validate, updateProfile)
+router.put('/update-password', auth, updatePasswordValidator, validate, updatePassword)
+router.put('/update-companies', auth, updateCompaniesValidator, validate, updateCompanies)
 
 module.exports = router;

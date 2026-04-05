@@ -208,3 +208,65 @@ exports.completeProfile = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+exports.updateProfile = async (req, res) => {
+    try {
+        const { name } = req.body
+        const user = await userModel.findByIdAndUpdate(
+            req.user._id,
+            { name },
+            { new: true }
+        ).select('-password')
+        res.json({ message: 'Profile updated', user })
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' })
+    }
+}
+
+exports.updatePassword = async (req, res) => {
+    try {
+        const { currentPassword, newPassword } = req.body
+        const user = await userModel.findById(req.user._id)
+
+        const isMatch = await bcrypt.compare(currentPassword, user.password)
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Current password is incorrect' })
+        }
+
+        const salt = await bcrypt.genSalt(10)
+        user.password = await bcrypt.hash(newPassword, salt)
+        await user.save()
+
+        res.json({ message: 'Password updated successfully' })
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' })
+    }
+}
+
+exports.updateCompanies = async (req, res) => {
+    try {
+        const { companies } = req.body
+        const user = await userModel.findByIdAndUpdate(
+            req.user._id,
+            { companies },
+            { new: true }
+        ).select('-password').populate('companies', 'name industry')
+        res.json({ message: 'Companies updated', user })
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' })
+    }
+}
+
+exports.updateProfile = async (req, res) => {
+    try {
+        const { name, jobPreference } = req.body
+        const user = await userModel.findByIdAndUpdate(
+            req.user._id,
+            { name, jobPreference },
+            { new: true }
+        ).select('-password').populate('companies', 'name industry')
+        res.json({ message: 'Profile updated', user })
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' })
+    }
+}

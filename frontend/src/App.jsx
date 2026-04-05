@@ -7,6 +7,10 @@ import CompleteProfile from '@/pages/CompleteProfile'
 import Dashboard from '@/pages/Dashboard'
 import Interview from '@/pages/Interview'
 import Report from '@/pages/Report'
+import Settings from '@/pages/Settings'
+import PaymentPage from '@/pages/PaymentPage'
+
+
 
 const ProtectedRoute = ({ children }) => {
     const { user, loading } = useAuth()
@@ -49,6 +53,17 @@ function App() {
                         <Report />
                     </ProtectedRoute>
                 } />
+                <Route path="/payment" element={
+                    <ProtectedRoute>
+                        <PaymentPage />
+                    </ProtectedRoute>
+                } />
+                <Route path="/settings" element={
+                    <ProtectedRoute>
+                        <Settings />
+                    </ProtectedRoute>
+                } />
+
                 <Route path="/" element={<Navigate to="/login" />} />
             </Routes>
         </BrowserRouter>
