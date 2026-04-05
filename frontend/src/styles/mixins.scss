@@ -1,0 +1,56 @@
+@use 'variables' as *;
+
+// Responsive mixins
+@mixin mobile {
+    @media (max-width: #{$mobile}) { @content; }
+}
+@mixin tablet {
+    @media (max-width: #{$tablet}) { @content; }
+}
+@mixin desktop {
+    @media (max-width: #{$desktop}) { @content; }
+}
+
+// Flex helpers
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+// Card mixin
+@mixin card {
+    background: white;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-md;
+    padding: $spacing-xl;
+}
+
+// Button mixin
+@mixin btn-primary {
+    background: $primary;
+    color: white;
+    padding: $spacing-sm $spacing-lg;
+    border-radius: $radius-md;
+    border: none;
+    cursor: pointer;
+    font-size: $font-size-md;
+    transition: all 0.2s ease;
+    
+    &:hover {
+        background: darken($primary, 10%);
+        transform: translateY(-1px);
+    }
+    
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+}
