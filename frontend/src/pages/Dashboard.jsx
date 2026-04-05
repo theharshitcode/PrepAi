@@ -24,23 +24,23 @@ export default function Dashboard() {
     }, [])
 
     const fetchData = async () => {
-        try {
-            const [interviewsRes, paymentRes, profileRes] = await Promise.all([
-                api.get('/interview/my-interviews'),
-                api.get('/payment/status'),
-                api.get('/auth/profile')
-            ])
-            setInterviews(interviewsRes.data)
-            setPaymentStatus(paymentRes.data)
-
-            // Companies populated objects hain ab
-            setCompanies(profileRes.data.companies || [])
-        } catch (err) {
-            toast.error('Failed to load data')
-        } finally {
-            setLoading(false)
-        }
+    try {
+        const [interviewsRes, paymentRes, profileRes] = await Promise.all([
+            api.get('/interview/my-interviews'),
+            api.get('/payment/status'),
+            api.get('/auth/profile')
+        ])
+        setInterviews(interviewsRes.data)
+        setPaymentStatus(paymentRes.data)
+        
+        // Companies populated objects hain ab
+        setCompanies(profileRes.data.companies || [])
+    } catch (err) {
+        toast.error('Failed to load data')
+    } finally {
+        setLoading(false)
     }
+}
 
     const handleStartInterview = async (e) => {
         e.preventDefault()
@@ -141,8 +141,8 @@ export default function Dashboard() {
                                 >
                                     <option value="">Select a company</option>
                                     {companies.map(company => (
-                                        <option key={company._id} value={company._id}>
-                                            {company.name}
+                                        <option key={company._id || company} value={company._id || company}>
+                                            {company.name || company}
                                         </option>
                                     ))}
                                 </select>
