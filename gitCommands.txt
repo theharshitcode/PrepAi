@@ -10,3 +10,21 @@ git push -u origin main
 git remote add origin https://github.com/theharshitcode/PrepAi.git
 git branch -M main
 git push -u origin main
+
+
+
+
+
+
+
+1. Frontend → POST /payment/create-order → orderId milta hai
+        ↓
+2. Razorpay checkout window khulti hai (frontend pe)
+   User card details dalta hai
+        ↓
+3. Razorpay khud signature generate karke frontend ko deta hai
+   razorpay_order_id, razorpay_payment_id, razorpay_signature
+        ↓
+4. Frontend → POST /payment/verify → teen values bhejta hai
+        ↓
+5. Backend verify karta hai → isPaid: true

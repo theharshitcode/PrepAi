@@ -118,18 +118,21 @@ exports.logoutUser = async (req, res) => {
     }
 };
 
+// auth.controller.js mein getProfile
 exports.getProfile = async (req, res) => {
     try {
-        const user = await userModel.findById(req.user.id).select('-password');
+        const user = await userModel.findById(req.user.id)
+            .select('-password')
+            .populate('companies', 'name industry')  // ye add karo
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(404).json({ message: 'User not found' })
         }
-        res.json(user);
+        res.json(user)
     } catch (err) {
-        console.error(err.message);
-        res.status(500).json({ message: 'Server error' });
+        console.error(err.message)
+        res.status(500).json({ message: 'Server error' })
     }
-};
+}
 
 exports.refreshToken = async (req, res) => {
     try {
