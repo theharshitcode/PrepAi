@@ -13,17 +13,20 @@ export const AuthProvider = ({ children }) => {
         if (token) {
             api.get('/auth/profile')
                 .then(res => setUser(res.data))
-                .catch(() => localStorage.removeItem('token'))
+                .catch(() => {
+                    localStorage.removeItem('token')
+                    setUser(null)
+                })
                 .finally(() => setLoading(false))
         } else {
             setLoading(false)
         }
     }, [])
 
-const login = (userData, token) => {
-    localStorage.setItem('token', token)
-    setUser(userData)
-}
+    const login = (userData, token) => {
+        localStorage.setItem('token', token)
+        setUser(userData)
+    }
 
     const logout = async () => {
         try {
@@ -35,7 +38,7 @@ const login = (userData, token) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, loading, login, logout }}>
+        <AuthContext.Provider value={{ user, setUser, loading, login, logout }}>
             {children}
         </AuthContext.Provider>
     )
