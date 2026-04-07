@@ -55,6 +55,7 @@ exports.registerUser = async (req, res) => {
     }
 };
 
+// auth.controller.js loginUser mein fix karo
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -74,7 +75,14 @@ exports.loginUser = async (req, res) => {
         res.cookie('refreshToken', refreshToken, cookieOptions);
 
         res.json({
-            user: { id: user._id, name: user.name, email: user.email },
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                isProfileComplete: user.isProfileComplete,  // ye missing tha
+                isPaid: user.isPaid,
+                interviewCount: user.interviewCount
+            },
             token,
             refreshToken
         });
@@ -167,6 +175,7 @@ exports.completeProfile = async (req, res) => {
         const { role, companies } = req.body;
 
         // Agar pehle se complete hai toh block karo
+        console.log('User profile completion status:', req.user.isProfileComplete); // Debugging line
         if (req.user.isProfileComplete) {
             return res.status(400).json({
                 message: 'Profile already completed. Role and companies cannot be changed.'
@@ -209,20 +218,6 @@ exports.completeProfile = async (req, res) => {
     }
 };
 
-exports.updateProfile = async (req, res) => {
-    try {
-        const { name } = req.body
-        const user = await userModel.findByIdAndUpdate(
-            req.user._id,
-            { name },
-            { new: true }
-        ).select('-password')
-        res.json({ message: 'Profile updated', user })
-    } catch (err) {
-        res.status(500).json({ message: 'Server error' })
-    }
-}
-
 exports.updatePassword = async (req, res) => {
     try {
         const { currentPassword, newPassword } = req.body
@@ -257,6 +252,7 @@ exports.updateCompanies = async (req, res) => {
     }
 }
 
+// auth.controller.js mein sirf ye rakho — pehla wala delete karo
 exports.updateProfile = async (req, res) => {
     try {
         const { name, jobPreference } = req.body

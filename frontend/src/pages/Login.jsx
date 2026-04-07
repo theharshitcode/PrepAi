@@ -29,6 +29,7 @@ const handleSubmit = async (e) => {
         toast.success('Welcome back!')
 
         // Profile complete check
+        console.log('User data after login:', res.data.user.isProfileComplete); // Debugging line
         if (res.data.user.isProfileComplete) {
             navigate('/dashboard')        // already complete — dashboard pe jao
         } else {
